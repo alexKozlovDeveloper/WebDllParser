@@ -11,20 +11,105 @@
     -
 </div>
 
+@*<input type="file" name="file" />*@
+@*@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="file" name="file" />
+        <input type="submit" value="OK" />
+    }*@
 
 
+<div>
+    <input type="file" name="UploadFile" id="txtUploadFile" class="makethispretty" />
+</div>
+
+<div class="result">
+
+</div>
 
 
 <script>
-    debugger;
+    $('#txtUploadFile').on('change', function (e) {
+        //debugger;
+        var files = e.target.files;
+        var myID = 3; //uncomment this to make sure the ajax URL works
+        if (files.length > 0) {
+            if (window.FormData !== undefined) {
+                var data = new FormData();
+                for (var x = 0; x < files.length; x++) {
+                    data.append("file" + x, files[x]);
+                }
 
-    var a = 100;
-    var b = 100;
-    var c = a + b;
+                $.ajax({
+                    type: "POST",
+                    url: 'Home/UploadFile?id=' + myID,
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        debugger;
 
-    var element = $(".answer")[0];
-    element.innerText = c;
+                        $("div.result").empty();
+
+                        for (var i = 0; i < result.length; i++) {
+                            $(".result").append("<p>" + result[i].Name + "</p>");
+                        }
+
+
+                        console.log(result);
+                    },
+                    error: function (xhr, status, p3, p4) {
+                        debugger;
+                        var err = "Error " + " " + status + " " + p3 + " " + p4;
+                        if (xhr.responseText && xhr.responseText[0] == "{")
+                            err = JSON.parse(xhr.responseText).Message;
+                        console.log(err);
+                    }
+                });
+            } else {
+                alert("This browser doesn't support HTML5 file uploads!");
+            }
+        }
+    });
 
 </script>
 
+
+@*<script>
+        //debugger;
+
+        var a = 100;
+        var b = 100;
+        var c = a + b;
+
+        var element = $(".answer")[0];
+        element.innerText = c;
+
+        $(document).ready(function () {
+            debugger;
+            $('#btnFileUpload').click(function () {
+                var formData = new FormData();
+                var file = $('#fileInput').files[0];
+                formData.append("fileInput", file);
+
+                $.ajax({
+                    url: 'Home/AddImage',
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function () {
+                        debugger;
+                        alert("URA");
+                    }
+                });
+            });
+        });
+    </script>
+
+
+    <form id="fileUpload" action="@Url.Action("AddImage")" method="POST" enctype="multipart/form-data">
+        <input id="fileInput" type="file" />
+        <input type="submit" value="Upload file" id="btnFileUpload" />
+    </form>*@
 
