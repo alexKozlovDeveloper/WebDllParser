@@ -44,6 +44,9 @@
     <Compile Include="LibraryParser.cs" />
     <Compile Include="Models\TypeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestEntityes\ClassA.cs" />
+    <Compile Include="TestEntityes\ClassB.cs" />
+    <Compile Include="TestEntityes\ClassC.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

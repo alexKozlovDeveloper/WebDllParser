@@ -13,13 +13,15 @@ namespace DllParser.Core.Models
 
         public List<string> Functions { get; set; }
         public List<string> Events { get; set; }
-        public List<string> Childs { get; set; }
+        public List<string> ChildsTypeName { get; set; }
+
+        public List<TypeModel> Childs { get; set; }
 
         public bool IsHasChild
         {
             get
             {
-                return Functions.Count > 0 || Events.Count > 0 || Childs.Count > 0;
+                return Functions.Count > 0 || Events.Count > 0 || ChildsTypeName.Count > 0;
             }
         }
 
@@ -27,7 +29,8 @@ namespace DllParser.Core.Models
         {
             Functions = new List<string>();
             Events = new List<string>();
-            Childs = new List<string>();
+            ChildsTypeName = new List<string>();
+            Childs = new List<TypeModel>();
         }
     }
 }

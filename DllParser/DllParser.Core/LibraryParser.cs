@@ -13,33 +13,38 @@ namespace DllParser.Core
     {
         private string _filePath;
 
+        public List<TypeModel> Types { get; private set; }
+
+        public Dictionary<string, TypeModel> TypesAsDictionary 
+        { 
+            get
+            {
+                return Types.ToDictionary(a => a.Name);
+            } 
+        }
+
         public LibraryParser(string filePath)
         {
             _filePath = filePath;
+
+            Assembly asm = Assembly.LoadFrom(_filePath);
+
+            Types = asm.DefinedTypes.Select(a => AssemblyHelper.GetTypeModel(a)).ToList();
         }
 
         public IEnumerable<TypeModel> Parse()
         {
-            var items = new List<TypeModel>();
+            var res = new List<TypeModel>();
 
-            var asm = Assembly.LoadFrom(_filePath);
-
-            foreach (TypeInfo type in asm.DefinedTypes)
+            foreach (var item in Types)
             {
-                items.Add(AssemblyHelper.GetTypeModel(type));
+                var d = AssemblyHelper.InitModelChilds(item, TypesAsDictionary);
+                res.Add(d);
             }
 
-            //foreach (TypeInfo type in asm.DefinedTypes)
-            //{
-            //    items.Add(new TypeModel
-            //    {
-            //        Childs = new List<TypeModel>(),
-            //        IsHasChild = true,
-            //        Name = type.Name
-            //    });
-            //}
 
-            return items;
+
+            return res;
         }
     }
 }

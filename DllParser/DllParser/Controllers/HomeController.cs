@@ -53,7 +53,7 @@ namespace DllParser.Controllers
                         LibraryParser lp = new LibraryParser(path);
                         items = lp.Parse().ToList();
 
-                        Session[Keys.AssemblyItems] = items.ToDictionary(a => a.Name);
+                        Session[Keys.AssemblyItems] = lp.TypesAsDictionary;
                     }
                 }
             }

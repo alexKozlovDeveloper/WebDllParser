@@ -20,7 +20,24 @@ namespace DllParser.Core.Helpers
 
             model.Functions = type.DeclaredMethods.Select(a => a.Name).ToList();
             model.Events = type.DeclaredEvents.Select(a => a.Name).ToList();
-            model.Childs = type.DeclaredFields.Select(a => a.Name).ToList();
+            model.ChildsTypeName = type.DeclaredProperties.Select(a => a.PropertyType.Name).ToList();
+
+            return model;
+        }
+
+        public static TypeModel InitModelChilds(TypeModel model, Dictionary<string, TypeModel> types)
+        {
+            foreach (var typeName in model.ChildsTypeName)
+            {
+                if (types.Keys.Contains(typeName))
+                {
+                    model.Childs.Add(types[typeName]);
+                }
+                else
+                {
+                    model.Childs.Add(new TypeModel { Name = typeName });                    
+                }
+            }
 
             return model;
         }
