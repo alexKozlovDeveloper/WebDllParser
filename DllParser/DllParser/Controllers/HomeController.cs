@@ -1,7 +1,9 @@
-﻿using DllParser.Core;
+﻿using DllParser.Configuration;
+using DllParser.Core;
 using DllParser.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 //using System.IO;
 using System.Linq;
 using System.Net;
@@ -29,7 +31,7 @@ namespace DllParser.Controllers
             return View();
         }
 
-        public JsonResult UploadFile(string id)
+        public JsonResult UploadFile()
         {
             List<TypeModel> items = new List<TypeModel>();
 
@@ -37,19 +39,21 @@ namespace DllParser.Controllers
             {
                 foreach (string file in Request.Files)
                 {
-                    var fileContent = Request.Files[file];
+                    HttpPostedFileBase fileContent = Request.Files[file];
                     if (fileContent != null && fileContent.ContentLength > 0)
                     {
-                        var stream = fileContent.InputStream;
-                        var fileName = System.IO.Path.GetFileName(file);
-                        var path = System.IO.Path.Combine(Server.MapPath("~/App_Data/Images"), fileName);
+                        Stream stream = fileContent.InputStream;
+                        string fileName = Path.GetRandomFileName();
+                        string path = Path.Combine(Server.MapPath(Keys.AppDataPath), fileName);
                         using (var fileStream = System.IO.File.Create(path))
                         {
                             stream.CopyTo(fileStream);
                         }
 
-                        LibraryParser lp = new LibraryParser(@"C:\Users\Aliaksei_Kazlou\Documents\Visual Studio 2013\Projects\DllParser\DllParser\bin\DllParser.dll");
+                        LibraryParser lp = new LibraryParser(path);
                         items = lp.Parse().ToList();
+
+                        Session[Keys.AssemblyItems] = items.ToDictionary(a => a.Name);
                     }
                 }
             }
@@ -60,6 +64,28 @@ namespace DllParser.Controllers
             }
 
             return Json(items);
+        }
+
+        public JsonResult GetTypeInfo(string name)
+        {
+            Dictionary<string, TypeModel> items = Session[Keys.AssemblyItems] as Dictionary<string, TypeModel>;
+
+            if (items == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Not found Types");
+            }
+
+            try
+            {
+                var d = items[name];
+                return Json(items[name]);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Failed: " + ex.Message);
+            }
         }
     }
 }

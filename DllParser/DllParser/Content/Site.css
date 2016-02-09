@@ -59,3 +59,44 @@ textarea {
 .validation-summary-valid {
     display: none;
 }
+
+.plus-image {
+    width: 25px;
+    height: 25px;
+}
+
+.member-container {
+    width: 200px;
+    height: 35px;
+}
+
+.name-container {
+    display: inline-block;
+    width: 125px;
+    height: 35px;
+}
+
+.image-container {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+}
+
+
+.image-plus {
+    background-image: url(/Content/images/plus1.png);
+    background-size: 100%;
+}
+
+.image-minus {
+    background-image: url(/Content/images/minus1.png);
+    background-size: 100%;
+}
+
+.childs-container-hide {
+    visibility: hidden;
+}
+
+.childs-container-show {
+    visibility: visible;
+}

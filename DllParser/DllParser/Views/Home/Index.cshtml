@@ -3,24 +3,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index233</h2>
 
 
 
-<div class="answer">
-    -
-</div>
-
-@*<input type="file" name="file" />*@
-@*@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        <input type="file" name="file" />
-        <input type="submit" value="OK" />
-    }*@
-
+@*<div class="member-container">
+        <div class="name-container">some text</div>
+        <img class="plus-image" src="~/Content/images/plus.ico" />
+    </div>*@
 
 <div>
-    <input type="file" name="UploadFile" id="txtUploadFile" class="makethispretty" />
+    <input type="file" name="UploadFile" id="uploadFile" class="makethispretty" />
 </div>
 
 <div class="result">
@@ -29,10 +21,92 @@
 
 
 <script>
-    $('#txtUploadFile').on('change', function (e) {
+    $('#uploadFile').on('change', function (e) {
         //debugger;
         var files = e.target.files;
-        var myID = 3; //uncomment this to make sure the ajax URL works
+
+        var rebindShowEvents = function (item) {
+            $('.image-container').unbind();
+            $('.image-container').click(showTypeFunc);
+        }
+
+        var getTypeInfoHtml = function (item) {
+            var res = "<div class='member-container' id='" + item.Id + "'><div class='name-container'>" + item.Name;
+            if (item.IsHasChild == true) {
+                res += "</div><div class='image-plus image-container' id='" + item.Id + "_img' ></div>";
+            }
+            res += "</div>";
+            return res;
+        }
+
+        var getSampleTypesInfoHtml = function (arr) {
+            var res = "";
+            arr.forEach(function (item) {
+                res += "<div class=\"member-container\"><div class=\"name-container\">" +
+                       item + "</div></div>";
+            });
+            return res;
+        }
+
+        var showTypeFunc = function (e) {
+            //debugger;
+
+            //$("#" + e.target.parentNode.id + "_img").hasClass("image-plus") === true
+
+            if ($("div").is("#" + e.target.parentNode.id + "_childs") == false) {
+
+                $.ajax({
+                    type: "POST",
+                    url: 'Home/GetTypeInfo?name=' + "TypeModel",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        debugger;
+
+                        var str = "<div id='" + e.target.parentNode.id + "_childs'>";
+
+                        str += getSampleTypesInfoHtml(result.Functions);
+                        str += getSampleTypesInfoHtml(result.Events);
+                        str += getSampleTypesInfoHtml(result.Childs);
+
+                        str += "</div><div class='image-plus'></div>";
+
+
+                        $("#" + e.target.parentNode.id).append(str);
+                        $("#" + e.target.parentNode.id + "_img").removeClass("image-plus").addClass("image-minus");
+
+                        rebindShowEvents();
+
+                        console.log(result);
+                    },
+                    error: function (xhr, status, p3, p4) {
+                        debugger;
+                        var err = "Error " + " " + status + " " + p3 + " " + p4;
+                        if (xhr.responseText && xhr.responseText[0] == "{")
+                            err = JSON.parse(xhr.responseText).Message;
+                        console.log(err);
+                    }
+                });
+
+            }
+            else {
+
+                if ($("#" + e.target.parentNode.id + "_img").hasClass("image-plus") === true) {
+
+                    $("#" + e.target.parentNode.id + "_childs").removeClass("childs-container-hide").addClass("childs-container-show");
+                    $("#" + e.target.parentNode.id + "_img").removeClass("image-plus").addClass("image-minus");
+                }
+                else {
+
+                    $("#" + e.target.parentNode.id + "_childs").removeClass("childs-container-show").addClass("childs-container-hide");
+                    $("#" + e.target.parentNode.id + "_img").removeClass("image-minus").addClass("image-plus");
+                }
+            }
+
+
+        }
+
         if (files.length > 0) {
             if (window.FormData !== undefined) {
                 var data = new FormData();
@@ -42,24 +116,33 @@
 
                 $.ajax({
                     type: "POST",
-                    url: 'Home/UploadFile?id=' + myID,
+                    url: 'Home/UploadFile',
                     contentType: false,
                     processData: false,
                     data: data,
                     success: function (result) {
-                        debugger;
+                        // debugger;
 
                         $("div.result").empty();
 
                         for (var i = 0; i < result.length; i++) {
-                            $(".result").append("<p>" + result[i].Name + "</p>");
+
+                            var item = getTypeInfoHtml(result[i]);
+                            //var item = "<div class='member-container' id='" + result[i].Id + "'><div class='name-container'>" + result[i].Name;                            
+
+                            //if(result[i].IsHasChild == true) {
+                            //    item += "</div><img class='plus-image' src='/Content/images/plus1.png' id='" + result[i].Id + "_img' />";
+                            //}
+                            //item += "</div>";
+
+                            $(".result").append(item);
                         }
 
+                        $('.image-container').click(showTypeFunc);
 
                         console.log(result);
                     },
                     error: function (xhr, status, p3, p4) {
-                        debugger;
                         var err = "Error " + " " + status + " " + p3 + " " + p4;
                         if (xhr.responseText && xhr.responseText[0] == "{")
                             err = JSON.parse(xhr.responseText).Message;
@@ -72,44 +155,9 @@
         }
     });
 
+
+
+
 </script>
 
-
-@*<script>
-        //debugger;
-
-        var a = 100;
-        var b = 100;
-        var c = a + b;
-
-        var element = $(".answer")[0];
-        element.innerText = c;
-
-        $(document).ready(function () {
-            debugger;
-            $('#btnFileUpload').click(function () {
-                var formData = new FormData();
-                var file = $('#fileInput').files[0];
-                formData.append("fileInput", file);
-
-                $.ajax({
-                    url: 'Home/AddImage',
-                    type: "POST",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function () {
-                        debugger;
-                        alert("URA");
-                    }
-                });
-            });
-        });
-    </script>
-
-
-    <form id="fileUpload" action="@Url.Action("AddImage")" method="POST" enctype="multipart/form-data">
-        <input id="fileInput" type="file" />
-        <input type="submit" value="Upload file" id="btnFileUpload" />
-    </form>*@
 

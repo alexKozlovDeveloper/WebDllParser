@@ -1,4 +1,5 @@
-﻿using DllParser.Core.Models;
+﻿using DllParser.Core.Helpers;
+using DllParser.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,13 +26,18 @@ namespace DllParser.Core
 
             foreach (TypeInfo type in asm.DefinedTypes)
             {
-                items.Add(new TypeModel
-                {
-                    Childs = new List<TypeModel>(),
-                    IsHasChild = true,
-                    Name = type.Name
-                });
+                items.Add(AssemblyHelper.GetTypeModel(type));
             }
+
+            //foreach (TypeInfo type in asm.DefinedTypes)
+            //{
+            //    items.Add(new TypeModel
+            //    {
+            //        Childs = new List<TypeModel>(),
+            //        IsHasChild = true,
+            //        Name = type.Name
+            //    });
+            //}
 
             return items;
         }
