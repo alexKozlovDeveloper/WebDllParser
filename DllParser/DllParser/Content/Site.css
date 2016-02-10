@@ -78,12 +78,14 @@ textarea {
     background-color: antiquewhite;
     padding-left: 10px;
     padding-top: 5px;
+    vertical-align: top;
 }
 
 .image-container {
     display: inline-block;
     width: 25px;
     height: 25px;
+    margin: 7px;
 }
 
 
@@ -118,4 +120,8 @@ textarea {
 .inputfile {
     padding-left: 30px;
     padding-top: 15px;
+}
+
+.result {
+    background-color: ivory;
 }
