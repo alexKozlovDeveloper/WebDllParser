@@ -48,25 +48,37 @@
             return res;
         }
 
-        var showTypeFunc = function (e) {
-            //debugger;
+        var getTypesInfoHtml = function (arr) {
+            var res = "";
+            arr.forEach(function (item) {
+                res += getTypeInfoHtml(item);
+            });
+            return res;
+        }
 
-            if ($("div").is("#" + e.target.parentNode.id + "_childs") == false) {
+        var showTypeFunc = function (e) {
+            debugger;
+
+            var parrent = $("#" + e.target.parentNode.id)[0];
+
+            var parrentNode = e.target.parentNode; 
+
+            if (parrentNode.childNodes.length === 2) {
 
                 $.ajax({
                     type: "POST",
-                    url: 'Home/GetTypeInfo?name=' + "TypeModel",
+                    url: 'Home/GetTypeInfo?name=' + parrent.innerText,
                     contentType: false,
                     processData: false,
                     data: data,
                     success: function (result) {
                         debugger;
 
-                        var str = "<div id='" + e.target.parentNode.id + "_childs'>";
+                        var str = "<div class='childs-container' id='" + e.target.parentNode.id + "_childs'>";
 
                         str += getSampleTypesInfoHtml(result.Functions);
                         str += getSampleTypesInfoHtml(result.Events);
-                        str += getSampleTypesInfoHtml(result.Childs);
+                        str += getTypesInfoHtml(result.Childs);
 
                         str += "</div><div class='image-plus'></div>";
 
@@ -90,19 +102,20 @@
             }
             else {
 
-                if ($("#" + e.target.parentNode.id + "_img").hasClass("image-plus") === true) {
+                var childDiv = parrentNode.childNodes[2];
+                var imageDiv = parrentNode.childNodes[1];
 
-                    $("#" + e.target.parentNode.id + "_childs").removeClass("childs-container-hide").addClass("childs-container-show");
-                    $("#" + e.target.parentNode.id + "_img").removeClass("image-plus").addClass("image-minus");
+                if ($(imageDiv).hasClass("image-plus") === true) {
+
+                    $(childDiv).removeClass("childs-container-hide").addClass("childs-container-show");
+                    $(imageDiv).removeClass("image-plus").addClass("image-minus");
                 }
                 else {
 
-                    $("#" + e.target.parentNode.id + "_childs").removeClass("childs-container-show").addClass("childs-container-hide");
-                    $("#" + e.target.parentNode.id + "_img").removeClass("image-minus").addClass("image-plus");
+                    $(childDiv).removeClass("childs-container-show").addClass("childs-container-hide");
+                    $(imageDiv).removeClass("image-minus").addClass("image-plus");
                 }
             }
-
-
         }
 
         if (files.length > 0) {

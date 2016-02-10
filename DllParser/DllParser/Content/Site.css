@@ -93,6 +93,10 @@ textarea {
     background-size: 100%;
 }
 
+.childs-container {
+
+}
+
 .childs-container-hide {
     visibility: hidden;
 }
