@@ -66,8 +66,9 @@ textarea {
 }
 
 .member-container {
-    width: 200px;
-    height: 35px;
+    /*width: 200px;
+    height: 35px;*/
+    text-align: center;
 }
 
 .name-container {
@@ -99,6 +100,7 @@ textarea {
 
 .childs-container-hide {
     visibility: hidden;
+    height: 0px;
 }
 
 .childs-container-show {
