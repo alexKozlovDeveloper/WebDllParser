@@ -32,5 +32,11 @@ namespace DllParser.Core.Models
             ChildsTypeName = new List<string>();
             Childs = new List<TypeModel>();
         }
+
+        public override bool Equals(object obj)
+        {
+            TypeModel item = obj as TypeModel;
+            return item.Name == this.Name;
+        }
     }
 }

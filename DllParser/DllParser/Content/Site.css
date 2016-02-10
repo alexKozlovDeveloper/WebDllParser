@@ -66,15 +66,18 @@ textarea {
 }
 
 .member-container {
-    /*width: 200px;
-    height: 35px;*/
-    text-align: center;
+    text-align: left;
+    margin-left: 20px;
+    padding: 5px;
 }
 
 .name-container {
     display: inline-block;
-    width: 125px;
+    width: 250px;
     height: 35px;
+    background-color: antiquewhite;
+    padding-left: 10px;
+    padding-top: 5px;
 }
 
 .image-container {
@@ -105,4 +108,14 @@ textarea {
 
 .childs-container-show {
     visibility: visible;
+}
+
+.input-container {
+    height: 50px;
+    background-color: aliceblue;
+}
+
+.inputfile {
+    padding-left: 30px;
+    padding-top: 15px;
 }

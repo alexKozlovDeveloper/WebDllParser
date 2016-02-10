@@ -4,7 +4,6 @@ using DllParser.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
-//using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -17,16 +16,6 @@ namespace DllParser.Controllers
     public class HomeController : Controller
     {
         public ActionResult Index()
-        {
-            return View();
-        }
-
-        public ActionResult SomeOtherPage()
-        {
-            return View();
-        }
-
-        public ActionResult GetAll()
         {
             return View();
         }

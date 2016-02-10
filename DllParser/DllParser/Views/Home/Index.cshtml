@@ -3,26 +3,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
-
-@*<div class="member-container">
-        <div class="name-container">some text</div>
-        <img class="plus-image" src="~/Content/images/plus.ico" />
-    </div>*@
-
-<div>
-    <input type="file" name="UploadFile" id="uploadFile" class="makethispretty" />
+<div class="input-container">
+    <input type="file" name="UploadFile" id="uploadFile" class="inputfile" />
 </div>
 
 <div class="result">
 
 </div>
 
-
 <script>
     $('#uploadFile').on('change', function (e) {
-        //debugger;
         var files = e.target.files;
 
         var rebindShowEvents = function (item) {
@@ -31,9 +21,9 @@
         }
 
         var getTypeInfoHtml = function (item) {
-            var res = "<div class='member-container' id='" + item.Id + "'><div class='name-container'>" + item.Name;
+            var res = "<div class='member-container'><div class='name-container'>" + item.Name + "</div>";
             if (item.IsHasChild == true) {
-                res += "</div><div class='image-plus image-container' id='" + item.Id + "_img' ></div>";
+                res += "<div class='image-plus image-container'></div>";
             }
             res += "</div>";
             return res;
@@ -57,24 +47,22 @@
         }
 
         var showTypeFunc = function (e) {
-            debugger;
-
-            var parrent = $("#" + e.target.parentNode.id)[0];
-
             var parrentNode = e.target.parentNode; 
+            var childDiv = parrentNode.childNodes[2];
+            var imageDiv = parrentNode.childNodes[1];
 
             if (parrentNode.childNodes.length === 2) {
 
                 $.ajax({
                     type: "POST",
-                    url: 'Home/GetTypeInfo?name=' + parrent.innerText,
+                    url: 'Home/GetTypeInfo?name=' + parrentNode.innerText,
                     contentType: false,
                     processData: false,
                     data: data,
                     success: function (result) {
                         debugger;
 
-                        var str = "<div class='childs-container' id='" + e.target.parentNode.id + "_childs'>";
+                        var str = "<div class='childs-container'>";
 
                         str += getSampleTypesInfoHtml(result.Functions);
                         str += getSampleTypesInfoHtml(result.Events);
@@ -82,10 +70,9 @@
 
                         str += "</div><div class='image-plus'></div>";
 
-
-                        $("#" + e.target.parentNode.id).append(str);
-                        $("#" + e.target.parentNode.id + "_img").removeClass("image-plus").addClass("image-minus");
-
+                        $(parrentNode).append(str);
+                        $(imageDiv).removeClass("image-plus").addClass("image-minus");
+                        
                         rebindShowEvents();
 
                         console.log(result);
@@ -101,9 +88,6 @@
 
             }
             else {
-
-                var childDiv = parrentNode.childNodes[2];
-                var imageDiv = parrentNode.childNodes[1];
 
                 if ($(imageDiv).hasClass("image-plus") === true) {
 
@@ -132,32 +116,20 @@
                     processData: false,
                     data: data,
                     success: function (result) {
-                        // debugger;
-
+                        debugger;
                         $("div.result").empty();
-
                         for (var i = 0; i < result.length; i++) {
-
                             var item = getTypeInfoHtml(result[i]);
-                            //var item = "<div class='member-container' id='" + result[i].Id + "'><div class='name-container'>" + result[i].Name;                            
-
-                            //if(result[i].IsHasChild == true) {
-                            //    item += "</div><img class='plus-image' src='/Content/images/plus1.png' id='" + result[i].Id + "_img' />";
-                            //}
-                            //item += "</div>";
-
                             $(".result").append(item);
                         }
 
                         $('.image-container').click(showTypeFunc);
-
-                        console.log(result);
                     },
                     error: function (xhr, status, p3, p4) {
+                        debugger;
                         var err = "Error " + " " + status + " " + p3 + " " + p4;
                         if (xhr.responseText && xhr.responseText[0] == "{")
                             err = JSON.parse(xhr.responseText).Message;
-                        console.log(err);
                     }
                 });
             } else {
@@ -165,10 +137,7 @@
             }
         }
     });
-
-
-
-
+        
 </script>
 
 
