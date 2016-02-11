@@ -21,7 +21,6 @@
         }
 
         var getTypeInfoHtml = function (item, imageClass) {
-            debugger;
             var res = "<div class='member-container'>";
             if (item.IsHasChild === true) {
                 res += "<div class='image-plus image-container'></div>";
@@ -30,15 +29,6 @@
             res += "</div>";
             return res;
         }
-
-        //var getSampleTypesInfoHtml = function (arr) {
-        //    var res = "";
-        //    arr.forEach(function (item) {
-        //        res += "<div class=\"member-container\"><div class=\"name-container\">" +
-        //               item + "</div></div>";
-        //    });
-        //    return res;
-        //}
 
         var getTypesInfoHtml = function (arr, imageClass) {
             var res = "";
@@ -50,13 +40,9 @@
 
         var showTypeFunc = function (e) {
 
-            debugger;
-
             var parrentNode = e.target.parentNode; 
             var childDiv = parrentNode.childNodes[3];
             var imageDiv = parrentNode.childNodes[0];
-
-
 
             if (parrentNode.childNodes.length === 3) {
 
@@ -67,16 +53,12 @@
                     processData: false,
                     data: data,
                     success: function (result) {
-                        debugger;
-
                         var str = "<div class='childs-container'>";
 
                         str += getTypesInfoHtml(result.Constructors,"constructors");
                         str += getTypesInfoHtml(result.Events, "events");
                         str += getTypesInfoHtml(result.FieldsChilds, "fields");
-                        //str += getTypesInfoHtml(result.Members, "members");
                         str += getTypesInfoHtml(result.Methods, "methods");
-                        //str += getTypesInfoHtml(result.NestedTypes, "nestedTypes");
                         str += getTypesInfoHtml(result.PropertiesChilds, "properties");
 
                         str += "</div><div class='image-plus'></div>";
@@ -114,7 +96,6 @@
         }
 
         if (files.length > 0) {
-
            
             if (window.FormData !== undefined) {
                 var data = new FormData();

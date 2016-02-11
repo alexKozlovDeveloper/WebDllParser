@@ -67,7 +67,6 @@ namespace DllParser.Controllers
 
             try
             {
-                var d = items[name];
                 return Json(items[name]);
             }
             catch (Exception ex)

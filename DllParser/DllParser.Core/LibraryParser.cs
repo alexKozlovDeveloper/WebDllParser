@@ -1,5 +1,4 @@
-﻿using DllParser.Core.Helpers;
-using DllParser.Core.Models;
+﻿using DllParser.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,8 +47,35 @@ namespace DllParser.Core
 
             foreach (var item in Types)
             {
-                var model = AssemblyHelper.InitModelChilds(item, TypesAsDictionary);
+                var model = InitModelChilds(item);
                 result.Add(model);
+            }
+
+            return result;
+        }
+
+        public TypeModel InitModelChilds(TypeModel model)
+        {
+            model.PropertiesChilds = GetChilds(model.Properties, TypesAsDictionary);
+            model.FieldsChilds = GetChilds(model.Fields, TypesAsDictionary);
+
+            return model;
+        }
+
+        private List<TypeModel> GetChilds(IEnumerable<TypeModel> fields, Dictionary<string, TypeModel> types)
+        {
+            var result = new List<TypeModel>();
+
+            foreach (var filed in fields)
+            {
+                if (types.Keys.Contains(filed.TypeName))
+                {
+                    result.Add(types[filed.TypeName]);
+                }
+                else
+                {
+                    result.Add(filed);
+                }
             }
 
             return result;
