@@ -54,7 +54,6 @@ var showTypeFunc = function (e) {
                 console.log(result);
             },
             error: function (xhr, status, p3, p4) {
-                debugger;
                 var err = "Error " + " " + status + " " + p3 + " " + p4;
                 if (xhr.responseText && xhr.responseText[0] == "{")
                     err = JSON.parse(xhr.responseText).Message;
@@ -97,7 +96,6 @@ $('#uploadFile').on('change', function (e) {
                 processData: false,
                 data: data,
                 success: function (result) {
-                    debugger;
                     $("div.result").empty();
                     for (var i = 0; i < result.length; i++) {
                         var item = getTypeInfoHtml(result[i], "class");
@@ -107,7 +105,6 @@ $('#uploadFile').on('change', function (e) {
                     $('.image-container').click(showTypeFunc);
                 },
                 error: function (xhr, status, p3, p4) {
-                    debugger;
                     var err = "Error " + " " + status + " " + p3 + " " + p4;
                     if (xhr.responseText && xhr.responseText[0] == "{")
                         err = JSON.parse(xhr.responseText).Message;
