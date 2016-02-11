@@ -10,36 +10,46 @@ namespace DllParser.Core.Helpers
 {
     class AssemblyHelper
     {
-        public static TypeModel GetTypeModel(TypeInfo type)
-        {
-            TypeModel model = new TypeModel 
-            {
-                Name = type.Name,
-                Id = type.GUID
-            };
+        //public static TypeModel GetTypeModel(TypeInfo type)
+        //{
+        //    TypeModel model = new TypeModel 
+        //    {
+        //        Name = type.Name,
+        //        Id = type.GUID
+        //    };
 
-            model.Functions = type.DeclaredMethods.Select(a => a.Name).ToList();
-            model.Events = type.DeclaredEvents.Select(a => a.Name).ToList();
-            model.ChildsTypeName = type.DeclaredProperties.Select(a => a.PropertyType.Name).ToList();
+        //    model.Methods = type.DeclaredMethods.Select(a => a.Name).ToList();
+        //    model.Events = type.DeclaredEvents.Select(a => a.Name).ToList();
+        //    model.Properties = type.DeclaredProperties.Select(a => a.PropertyType.Name).ToList();
+
+        //    return model;
+        //}
+
+        public static TypeModel InitModelChilds(TypeModel model, Dictionary<string, TypeModel> types)
+        {
+            model.PropertiesChilds = GetChilds(model.Properties, types);
+            model.FieldsChilds = GetChilds(model.Fields, types);
 
             return model;
         }
 
-        public static TypeModel InitModelChilds(TypeModel model, Dictionary<string, TypeModel> types)
+        private static List<TypeModel> GetChilds(IEnumerable<TypeModel> fields, Dictionary<string, TypeModel> types)
         {
-            foreach (var typeName in model.ChildsTypeName)
+            var result = new List<TypeModel>();
+
+            foreach (var filed in fields)
             {
-                if (types.Keys.Contains(typeName))
+                if (types.Keys.Contains(filed.TypeName))
                 {
-                    model.Childs.Add(types[typeName]);
+                    result.Add(types[filed.TypeName]);
                 }
                 else
                 {
-                    model.Childs.Add(new TypeModel { Name = typeName });                    
+                    result.Add(filed);                    
                 }
             }
 
-            return model;
+            return result;
         }
     }
 }

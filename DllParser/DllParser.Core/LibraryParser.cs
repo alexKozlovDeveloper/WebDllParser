@@ -39,7 +39,7 @@ namespace DllParser.Core
 
             Assembly asm = Assembly.LoadFrom(_filePath);
 
-            Types = asm.DefinedTypes.Select(a => AssemblyHelper.GetTypeModel(a)).ToList();
+            Types = asm.DefinedTypes.Select(a => new TypeModel(a)).ToList();
         }
 
         public IEnumerable<TypeModel> Parse()

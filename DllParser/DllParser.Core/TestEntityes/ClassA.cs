@@ -8,6 +8,13 @@ namespace DllParser.Core.TestEntityes
 {
     class ClassA
     {
+        private string somePrivateField;
+        public string someField;
+
+        public delegate void SampleEventHandler(object sender);
+
+        public event SampleEventHandler SampleEvent;
+
         public ClassB B { get; set; }
 
         public ClassC C { get; set; }

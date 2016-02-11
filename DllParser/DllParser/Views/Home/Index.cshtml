@@ -20,38 +20,45 @@
             $('.image-container').click(showTypeFunc);
         }
 
-        var getTypeInfoHtml = function (item) {
-            var res = "<div class='member-container'><div class='name-container'>" + item.Name + "</div>";
-            if (item.IsHasChild == true) {
+        var getTypeInfoHtml = function (item, imageClass) {
+            debugger;
+            var res = "<div class='member-container'>";
+            if (item.IsHasChild === true) {
                 res += "<div class='image-plus image-container'></div>";
             }
+            res += "<div class='image-" + imageClass + " image-container'></div><div class='name-container'>" + item.Name + "</div>";
             res += "</div>";
             return res;
         }
 
-        var getSampleTypesInfoHtml = function (arr) {
-            var res = "";
-            arr.forEach(function (item) {
-                res += "<div class=\"member-container\"><div class=\"name-container\">" +
-                       item + "</div></div>";
-            });
-            return res;
-        }
+        //var getSampleTypesInfoHtml = function (arr) {
+        //    var res = "";
+        //    arr.forEach(function (item) {
+        //        res += "<div class=\"member-container\"><div class=\"name-container\">" +
+        //               item + "</div></div>";
+        //    });
+        //    return res;
+        //}
 
-        var getTypesInfoHtml = function (arr) {
+        var getTypesInfoHtml = function (arr, imageClass) {
             var res = "";
             arr.forEach(function (item) {
-                res += getTypeInfoHtml(item);
+                res += getTypeInfoHtml(item, imageClass);
             });
             return res;
         }
 
         var showTypeFunc = function (e) {
-            var parrentNode = e.target.parentNode; 
-            var childDiv = parrentNode.childNodes[2];
-            var imageDiv = parrentNode.childNodes[1];
 
-            if (parrentNode.childNodes.length === 2) {
+            debugger;
+
+            var parrentNode = e.target.parentNode; 
+            var childDiv = parrentNode.childNodes[3];
+            var imageDiv = parrentNode.childNodes[0];
+
+
+
+            if (parrentNode.childNodes.length === 3) {
 
                 $.ajax({
                     type: "POST",
@@ -64,9 +71,13 @@
 
                         var str = "<div class='childs-container'>";
 
-                        str += getSampleTypesInfoHtml(result.Functions);
-                        str += getSampleTypesInfoHtml(result.Events);
-                        str += getTypesInfoHtml(result.Childs);
+                        str += getTypesInfoHtml(result.Constructors,"constructors");
+                        str += getTypesInfoHtml(result.Events, "events");
+                        str += getTypesInfoHtml(result.FieldsChilds, "fields");
+                        //str += getTypesInfoHtml(result.Members, "members");
+                        str += getTypesInfoHtml(result.Methods, "methods");
+                        //str += getTypesInfoHtml(result.NestedTypes, "nestedTypes");
+                        str += getTypesInfoHtml(result.PropertiesChilds, "properties");
 
                         str += "</div><div class='image-plus'></div>";
 
@@ -103,6 +114,8 @@
         }
 
         if (files.length > 0) {
+
+           
             if (window.FormData !== undefined) {
                 var data = new FormData();
                 for (var x = 0; x < files.length; x++) {
@@ -119,7 +132,7 @@
                         debugger;
                         $("div.result").empty();
                         for (var i = 0; i < result.length; i++) {
-                            var item = getTypeInfoHtml(result[i]);
+                            var item = getTypeInfoHtml(result[i], "class");
                             $(".result").append(item);
                         }
 

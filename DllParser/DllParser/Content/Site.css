@@ -68,16 +68,16 @@ textarea {
 .member-container {
     text-align: left;
     margin-left: 20px;
-    padding: 5px;
+    padding: 1px;
 }
 
 .name-container {
     display: inline-block;
     width: 250px;
-    height: 35px;
-    background-color: antiquewhite;
-    padding-left: 10px;
-    padding-top: 5px;
+    /*height: 35px;*/
+    /*background-color: antiquewhite;*/
+    /*padding-left: 10px;*/
+    padding-top: 2px;
     vertical-align: top;
 }
 
@@ -85,18 +85,17 @@ textarea {
     display: inline-block;
     width: 25px;
     height: 25px;
-    margin: 7px;
+    /*margin: 7px;*/
+    background-size: 100%;
 }
 
 
 .image-plus {
-    background-image: url(/Content/images/plus1.png);
-    background-size: 100%;
+    background-image: url(/Content/images/closeCursor_img.png);
 }
 
 .image-minus {
-    background-image: url(/Content/images/minus1.png);
-    background-size: 100%;
+    background-image: url(/Content/images/openCursor_img.png);   
 }
 
 .childs-container {
@@ -123,5 +122,38 @@ textarea {
 }
 
 .result {
-    background-color: ivory;
+    /*background-color: ivory;*/
 }
+
+.image-constructors {
+    background-image: url(/Content/images/method_img.png);   
+}
+
+.image-events {
+    background-image: url(/Content/images/event_img.png);   
+}
+
+.image-fields {
+    background-image: url(/Content/images/field_img.png);   
+}
+
+.image-members {
+    background-image: url(/Content/images/method_img.png);   
+}
+
+.image-methods {
+    background-image: url(/Content/images/method_img.png);   
+}
+
+.image-nestedTypes {
+    background-image: url(/Content/images/method_img.png);   
+}
+
+.image-properties {
+    background-image: url(/Content/images/property_img.png);   
+}
+
+.image-class {
+    background-image: url(/Content/images/class_img.png);   
+}
+
