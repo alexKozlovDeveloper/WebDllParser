@@ -54,7 +54,7 @@ namespace DllParser.Core
             return result;
         }
 
-        public TypeModel InitModelChilds(TypeModel model)
+        private TypeModel InitModelChilds(TypeModel model)
         {
             model.PropertiesChilds = GetChilds(model.Properties, TypesAsDictionary);
             model.FieldsChilds = GetChilds(model.Fields, TypesAsDictionary);

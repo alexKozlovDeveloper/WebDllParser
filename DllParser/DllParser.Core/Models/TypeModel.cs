@@ -11,6 +11,7 @@ namespace DllParser.Core.Models
     {
         public string Name { get; set; }
         public string TypeName { get; set; }
+        public string ParametrsInfo { get; set; }
         public Guid Id { get; set; }
 
         public List<TypeModel> Constructors { get; set; }
@@ -36,6 +37,7 @@ namespace DllParser.Core.Models
 
         public TypeModel()
         {
+            ParametrsInfo = string.Empty;
             Constructors = new List<TypeModel>();
             Events = new List<TypeModel>();
             Fields = new List<TypeModel>();
@@ -48,17 +50,21 @@ namespace DllParser.Core.Models
             Name = type.Name;
             TypeName = type.Name;
 
-            Constructors = type.DeclaredConstructors.Select(a => new TypeModel( a.Name)).ToList();
-            Events = type.DeclaredEvents.Select(a => new TypeModel(a.Name)).ToList();
+            ParametrsInfo = string.Empty;
+
+            Constructors = type.DeclaredConstructors.Select(a => new TypeModel(a.Name)).ToList();
+            Events = type.DeclaredEvents.Select(a => new TypeModel(a.Name, a.RemoveMethod.ReturnType.Name)).ToList();
             Fields = type.DeclaredFields.Select(a => new TypeModel(a.Name, a.FieldType.Name)).ToList();
-            Methods = type.DeclaredMethods.Select(a => new TypeModel(a.Name)).ToList();
+            Methods = type.DeclaredMethods.Select(a => new TypeModel(a.Name, a.ReturnType.Name, a.GetParameters())).ToList();
             Properties = type.DeclaredProperties.Select(a => new TypeModel(a.Name, a.PropertyType.Name)).ToList();
         }
 
-        public TypeModel(string name, string type = "")
+        public TypeModel(string name, string type = "", ParameterInfo[] parametars = null)
         {
             Name = name;
             TypeName = type;
+
+            ParametrsInfo = parametars != null ? "(" + string.Join(", ", parametars.Select(a => a.ParameterType.Name)) + ")" : string.Empty;
 
             Constructors = new List<TypeModel>();
             Events = new List<TypeModel>();
