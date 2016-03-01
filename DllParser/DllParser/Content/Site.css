@@ -108,7 +108,7 @@ textarea {
 
 .input-container {
     height: 50px;
-    background-color: aliceblue;
+    background-color: gold;
 }
 
 .inputfile {
@@ -156,3 +156,9 @@ textarea {
     background-image: url(/Content/images/namespace_img.png);   
 }
 
+.error-container {
+    background-color: lightcoral;
+    padding-left: 30px;
+    padding-top: 15px;
+    height: 36px;
+}

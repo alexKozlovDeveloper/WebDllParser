@@ -58,9 +58,9 @@ namespace DllParser.Controllers
 
         public JsonResult GetTypeInfo(string name)
         {
-            Dictionary<string, TypeModel> items = Session[Keys.AssemblyItems] as Dictionary<string, TypeModel>;
+            LibraryParser libraryParser = Session[Keys.AssemblyParser] as LibraryParser;
 
-            if (items == null)
+            if (libraryParser == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json("Not found Types");
@@ -68,7 +68,7 @@ namespace DllParser.Controllers
 
             try
             {
-                return Json(items[name]);
+                return Json(libraryParser.GetTypeModel(name));
             }
             catch (Exception ex)
             {
@@ -79,19 +79,24 @@ namespace DllParser.Controllers
 
         public JsonResult GetTypeFromNamespace(string namespaceName)
         {
-            List<string> res = new List<string>();
-
             LibraryParser libraryParser = Session[Keys.AssemblyParser] as LibraryParser;
 
-            if (libraryParser == null) { return Json(res); }
+            if (libraryParser == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Not found Types");
+            }
             
             try
             {
-                res = libraryParser.Namespaces[namespaceName].Select(a => a.Name).ToList();
+                var s = libraryParser.Namespaces[namespaceName].Select(a => a.Name).ToList();
+                return Json(s);
             }
-            catch (Exception ex) { }
-
-            return Json(res);
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Not found Types");
+            }
         }
     }
 }

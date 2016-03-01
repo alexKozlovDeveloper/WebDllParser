@@ -113,5 +113,10 @@ namespace DllParser.Core
 
         //    return result;
         //}
+
+        public TypeModel GetTypeModel(string typeName)
+        {
+            return Types.Where(a => a.Name == typeName).FirstOrDefault();
+        }
     }
 }
