@@ -114,6 +114,7 @@ textarea {
 .inputfile {
     padding-left: 30px;
     padding-top: 15px;
+    width: 600px;
 }
 
 .result {
@@ -149,5 +150,9 @@ textarea {
 
 .image-class {
     background-image: url(/Content/images/class_img.png);   
+}
+
+.image-namespace {
+    background-image: url(/Content/images/namespace_img.png);   
 }
 

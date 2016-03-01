@@ -13,24 +13,34 @@ namespace DllParser.Core
         private string _filePath;
 
         public List<TypeModel> Types { get; private set; }
+        public Dictionary<string, List<TypeModel>> Namespaces { get; private set; }
 
-        public Dictionary<string, TypeModel> TypesAsDictionary
-        {
-            get
+        public List<string> NamespaceNames 
+        { 
+            get 
             {
-                var result = new Dictionary<string, TypeModel>();
-
-                foreach (var type in Types)
-                {
-                    if (result.Keys.Contains(type.Name) == false)
-                    {
-                        result.Add(type.Name, type);
-                    }
-                }
-
-                return result;
-            }
+                return Namespaces.Select(a => a.Key).ToList();
+            } 
         }
+
+
+        //public Dictionary<string, TypeModel> TypesAsDictionary
+        //{
+        //    get
+        //    {
+        //        var result = new Dictionary<string, TypeModel>();
+
+        //        foreach (var type in Types)
+        //        {
+        //            if (result.Keys.Contains(type.Name) == false)
+        //            {
+        //                result.Add(type.Name, type);
+        //            }
+        //        }
+
+        //        return result;
+        //    }
+        //}
 
         public LibraryParser(string filePath)
         {
@@ -38,47 +48,70 @@ namespace DllParser.Core
 
             Assembly asm = Assembly.LoadFrom(_filePath);
 
-            Types = asm.DefinedTypes.Select(a => new TypeModel(a)).ToList();
-        }
+            Types = new List<TypeModel>();
+            Namespaces = new Dictionary<string, List<TypeModel>>();
 
-        public IEnumerable<TypeModel> Parse()
-        {
-            var result = new List<TypeModel>();
-
-            foreach (var item in Types)
+            foreach (var item in asm.DefinedTypes)
             {
-                var model = InitModelChilds(item);
-                result.Add(model);
-            }
+                var model = new TypeModel(item);
 
-            return result;
-        }
+                if (string.IsNullOrEmpty(model.Namespace) == true) { continue; }                
 
-        private TypeModel InitModelChilds(TypeModel model)
-        {
-            model.PropertiesChilds = GetChilds(model.Properties, TypesAsDictionary);
-            model.FieldsChilds = GetChilds(model.Fields, TypesAsDictionary);
-
-            return model;
-        }
-
-        private List<TypeModel> GetChilds(IEnumerable<TypeModel> fields, Dictionary<string, TypeModel> types)
-        {
-            var result = new List<TypeModel>();
-
-            foreach (var filed in fields)
-            {
-                if (types.Keys.Contains(filed.TypeName))
+                if (Namespaces.Keys.Contains(model.Namespace) == false)
                 {
-                    result.Add(types[filed.TypeName]);
+                    Namespaces.Add(model.Namespace, new List<TypeModel>());
                 }
-                else
-                {
-                    result.Add(filed);
-                }
-            }
 
-            return result;
+                Namespaces[model.Namespace].Add(model);
+                Types.Add(model);
+            }
         }
+
+        //public IEnumerable<TypeModel> Parse()
+        //{
+        //    var result = new List<TypeModel>();
+
+        //    foreach (var item in Types)
+        //    {
+        //        var model = InitModelChilds(item);
+        //        result.Add(model);
+        //    }
+
+        //    return result;
+        //}
+
+        //public Dictionary<string, List<TypeModel>> Parse()
+        //{
+
+
+        //    return result;
+        //}
+
+        //private TypeModel InitModelChilds(TypeModel model)
+        //{
+        //    model.PropertiesChilds = GetChilds(model.Properties, TypesAsDictionary);
+        //    model.FieldsChilds = GetChilds(model.Fields, TypesAsDictionary);
+
+        //    return model;
+        //}
+
+        //private List<TypeModel> GetChilds(IEnumerable<TypeModel> fields, Dictionary<string, TypeModel> types)
+        //{
+        //    var result = new List<TypeModel>();
+
+        //    foreach (var filed in fields)
+        //    {
+        //        if (types.Keys.Contains(filed.TypeName))
+        //        {
+        //            result.Add(types[filed.TypeName]);
+        //        }
+        //        else
+        //        {
+        //            result.Add(filed);
+        //        }
+        //    }
+
+        //    return result;
+        //}
     }
 }

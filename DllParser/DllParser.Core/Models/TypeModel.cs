@@ -12,6 +12,7 @@ namespace DllParser.Core.Models
         public string Name { get; set; }
         public string TypeName { get; set; }
         public string ParametrsInfo { get; set; }
+        public string Namespace { get; set; }
         public Guid Id { get; set; }
 
         public List<TypeModel> Constructors { get; set; }
@@ -49,6 +50,7 @@ namespace DllParser.Core.Models
         {
             Name = type.Name;
             TypeName = type.Name;
+            Namespace = type.Namespace;
 
             ParametrsInfo = string.Empty;
 

@@ -22,7 +22,7 @@ namespace DllParser.Controllers
 
         public JsonResult UploadFile()
         {
-            List<TypeModel> items = new List<TypeModel>();
+            List<string> namespaces = new List<string>();
 
             try
             {
@@ -39,10 +39,11 @@ namespace DllParser.Controllers
                             stream.CopyTo(fileStream);
                         }
 
-                        LibraryParser lp = new LibraryParser(path);
-                        items = lp.Parse().ToList();
+                        LibraryParser libraryParser = new LibraryParser(path);
 
-                        Session[Keys.AssemblyItems] = lp.TypesAsDictionary;
+                        Session[Keys.AssemblyParser] = libraryParser;
+
+                        namespaces = libraryParser.NamespaceNames;
                     }
                 }
             }
@@ -52,7 +53,7 @@ namespace DllParser.Controllers
                 return Json("Upload failed");
             }
 
-            return Json(items);
+            return Json(namespaces);
         }
 
         public JsonResult GetTypeInfo(string name)
@@ -74,6 +75,23 @@ namespace DllParser.Controllers
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json("Failed: " + ex.Message);
             }
+        }
+
+        public JsonResult GetTypeFromNamespace(string namespaceName)
+        {
+            List<string> res = new List<string>();
+
+            LibraryParser libraryParser = Session[Keys.AssemblyParser] as LibraryParser;
+
+            if (libraryParser == null) { return Json(res); }
+            
+            try
+            {
+                res = libraryParser.Namespaces[namespaceName].Select(a => a.Name).ToList();
+            }
+            catch (Exception ex) { }
+
+            return Json(res);
         }
     }
 }
