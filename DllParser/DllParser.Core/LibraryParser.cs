@@ -23,25 +23,6 @@ namespace DllParser.Core
             } 
         }
 
-
-        //public Dictionary<string, TypeModel> TypesAsDictionary
-        //{
-        //    get
-        //    {
-        //        var result = new Dictionary<string, TypeModel>();
-
-        //        foreach (var type in Types)
-        //        {
-        //            if (result.Keys.Contains(type.Name) == false)
-        //            {
-        //                result.Add(type.Name, type);
-        //            }
-        //        }
-
-        //        return result;
-        //    }
-        //}
-
         public LibraryParser(string filePath)
         {
             _filePath = filePath;
@@ -66,53 +47,6 @@ namespace DllParser.Core
                 Types.Add(model);
             }
         }
-
-        //public IEnumerable<TypeModel> Parse()
-        //{
-        //    var result = new List<TypeModel>();
-
-        //    foreach (var item in Types)
-        //    {
-        //        var model = InitModelChilds(item);
-        //        result.Add(model);
-        //    }
-
-        //    return result;
-        //}
-
-        //public Dictionary<string, List<TypeModel>> Parse()
-        //{
-
-
-        //    return result;
-        //}
-
-        //private TypeModel InitModelChilds(TypeModel model)
-        //{
-        //    model.PropertiesChilds = GetChilds(model.Properties, TypesAsDictionary);
-        //    model.FieldsChilds = GetChilds(model.Fields, TypesAsDictionary);
-
-        //    return model;
-        //}
-
-        //private List<TypeModel> GetChilds(IEnumerable<TypeModel> fields, Dictionary<string, TypeModel> types)
-        //{
-        //    var result = new List<TypeModel>();
-
-        //    foreach (var filed in fields)
-        //    {
-        //        if (types.Keys.Contains(filed.TypeName))
-        //        {
-        //            result.Add(types[filed.TypeName]);
-        //        }
-        //        else
-        //        {
-        //            result.Add(filed);
-        //        }
-        //    }
-
-        //    return result;
-        //}
 
         public TypeModel GetTypeModel(string typeName)
         {

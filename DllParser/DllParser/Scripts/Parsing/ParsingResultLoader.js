@@ -1,7 +1,4 @@
-﻿
-var model = null;
-
-var rebindShowEvents = function (item) {
+﻿var rebindShowEvents = function (item) {
     $('.image-container.type').unbind();
     $('.image-container.type').click(showTypeFunc);
     $('.image-container.namespace').unbind();
@@ -20,7 +17,7 @@ var getTypeInfoHtml = function (item, imageClass) {
 }
 
 var getTypeHtml = function (item) {
-    var res = "<div class='member-container' id='" + item + "'>";
+    var res = "<div class='member-container'>";
     res += "<div class='image-plus image-container type'></div>";
     res += "<div class='image-class image-container'></div><div class='name-container'>" + item + "</div>";
     res += "</div>";
@@ -44,9 +41,6 @@ var getTypesInfoHtml = function (arr, imageClass) {
 }
 
 var showTypeFunc = function (e) {
-
-    debugger;
-
     var parrentNode = e.target.parentNode;
 
     var image = $(parrentNode).children(".image-container")[0];
@@ -65,8 +59,6 @@ var showTypeFunc = function (e) {
                 contentType: false,
                 processData: false,
                 success: function (result) {
-                    debugger;
-
                     var str = "<div class='childs-container'>";
 
                     str += getTypesInfoHtml(result.Constructors, "constructors");
@@ -83,6 +75,13 @@ var showTypeFunc = function (e) {
                     $(parrentNode).addClass("container-loaded");
 
                     rebindShowEvents();
+                },
+                error: function () {
+                    $("div.result").empty();
+
+                    var message = "<div class='error-container'>Something is wrong.</div>";
+
+                    $(".result").append(message);
                 }
             });
         }
@@ -124,6 +123,13 @@ var showTypesFromNamespaceFunc = function (e) {
                     $(image).removeClass("image-plus").addClass("image-minus");
 
                     rebindShowEvents();
+                },
+                error: function () {
+                    $("div.result").empty();
+
+                    var message = "<div class='error-container'>Something is wrong.</div>";
+
+                    $(".result").append(message);
                 }
             });
         }

@@ -22,8 +22,6 @@ namespace DllParser.Controllers
 
         public JsonResult UploadFile()
         {
-            List<string> namespaces = new List<string>();
-
             try
             {
                 foreach (string file in Request.Files)
@@ -43,7 +41,7 @@ namespace DllParser.Controllers
 
                         Session[Keys.AssemblyParser] = libraryParser;
 
-                        namespaces = libraryParser.NamespaceNames;
+                        return Json(libraryParser.NamespaceNames);
                     }
                 }
             }
@@ -53,7 +51,7 @@ namespace DllParser.Controllers
                 return Json("Upload failed");
             }
 
-            return Json(namespaces);
+            return Json(new List<string>());
         }
 
         public JsonResult GetTypeInfo(string name)
@@ -89,13 +87,12 @@ namespace DllParser.Controllers
             
             try
             {
-                var s = libraryParser.Namespaces[namespaceName].Select(a => a.Name).ToList();
-                return Json(s);
+                return Json(libraryParser.Namespaces[namespaceName].Select(a => a.Name).ToList());
             }
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json("Not found Types");
+                return Json("Failed: " + ex.Message);
             }
         }
     }

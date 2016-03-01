@@ -13,38 +13,12 @@ namespace DllParser.Core.Models
         public string TypeName { get; set; }
         public string ParametrsInfo { get; set; }
         public string Namespace { get; set; }
-        public Guid Id { get; set; }
 
         public List<TypeModel> Constructors { get; set; }
         public List<TypeModel> Events { get; set; }
         public List<TypeModel> Fields { get; set; }
         public List<TypeModel> Methods { get; set; }
         public List<TypeModel> Properties { get; set; }
-
-        public List<TypeModel> FieldsChilds { get; set; }
-        public List<TypeModel> PropertiesChilds { get; set; }
-
-        public bool IsHasChild
-        {
-            get
-            {
-                return Constructors.Count > 0 
-                    || Events.Count > 0
-                    || Fields.Count > 0
-                    || Methods.Count > 0
-                    || Properties.Count > 0;
-            }
-        }
-
-        public TypeModel()
-        {
-            ParametrsInfo = string.Empty;
-            Constructors = new List<TypeModel>();
-            Events = new List<TypeModel>();
-            Fields = new List<TypeModel>();
-            Methods = new List<TypeModel>();
-            Properties = new List<TypeModel>();
-        }
 
         public TypeModel(TypeInfo type)
         {
@@ -73,12 +47,6 @@ namespace DllParser.Core.Models
             Fields = new List<TypeModel>();
             Methods = new List<TypeModel>();
             Properties = new List<TypeModel>();
-        }
-
-        public override bool Equals(object obj)
-        {
-            TypeModel item = obj as TypeModel;
-            return item.Name == this.Name;
         }
     }
 }
