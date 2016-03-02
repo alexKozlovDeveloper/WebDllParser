@@ -1,4 +1,13 @@
-﻿var rebindShowEvents = function (item) {
+﻿var showTypesFromNamespaceUrl = "Home/GetTypeFromNamespace?namespaceName=";
+var showTypeInfoUrl = "Home/GetTypeInfo?name=";
+
+var writeErrorMessage = function (message) {
+    $("div.result").empty();
+    var message = "<div class='error-container'>" + message + "</div>";
+    $(".result").append(message);
+}
+
+var rebindShowEvents = function (item) {
     $('.image-container.type').unbind();
     $('.image-container.type').click(showTypeFunc);
     $('.image-container.namespace').unbind();
@@ -55,7 +64,7 @@ var showTypeFunc = function (e) {
         else {
             $.ajax({
                 type: "POST",
-                url: 'Home/GetTypeInfo?name=' + name.innerText,
+                url: showTypeInfoUrl + name.innerText,
                 contentType: false,
                 processData: false,
                 success: function (result) {
@@ -76,12 +85,8 @@ var showTypeFunc = function (e) {
 
                     rebindShowEvents();
                 },
-                error: function () {
-                    $("div.result").empty();
-
-                    var message = "<div class='error-container'>Something is wrong.</div>";
-
-                    $(".result").append(message);
+                error: function (ex) {
+                    writeErrorMessage("Something is wrong. " + ex.responseText);
                 }
             });
         }
@@ -107,7 +112,7 @@ var showTypesFromNamespaceFunc = function (e) {
         else {
             $.ajax({
                 type: "POST",
-                url: 'Home/GetTypeFromNamespace?namespaceName=' + name.innerText,
+                url: showTypesFromNamespaceUrl + name.innerText,
                 contentType: false,
                 processData: false,
                 success: function (result) {
@@ -124,12 +129,8 @@ var showTypesFromNamespaceFunc = function (e) {
 
                     rebindShowEvents();
                 },
-                error: function () {
-                    $("div.result").empty();
-
-                    var message = "<div class='error-container'>Something is wrong.</div>";
-
-                    $(".result").append(message);
+                error: function (ex) {
+                    writeErrorMessage("Something is wrong. " + ex.responseText);
                 }
             });
         }
@@ -163,12 +164,9 @@ $('#uploadFile').on('change', function (e) {
                 }
                 rebindShowEvents();
             },
-            error: function () {
-                $("div.result").empty();
-
-                var message = "<div class='error-container'>Something is wrong.</div>";
-
-                $(".result").append(message);
+            error: function (ex) {
+                debugger;
+                writeErrorMessage("Something is wrong. " + ex.responseText);
             }
         });
     }
