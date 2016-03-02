@@ -52,13 +52,21 @@
 
         var parrentNode = e.target.parentNode;
 
+        debugger;
+
+        var d1 = $(".image-plus");
+        var d2 = $(".image-plus").first();
+        var d3 = d1[0];
+        var d4 = d2[0];
+        var d5 = d1.get(0);
+
         var image = $(parrentNode).children(".image-container")[0];
         var childs = $(parrentNode).children(".childs-container")[0];
         var name = $(parrentNode).children(".name-container")[0];
 
         if ($(e.target).hasClass("image-plus") === true) {
             if ($(parrentNode).hasClass("container-loaded") === true) {
-                $(childs).removeClass("childs-container-hide").addClass("childs-container-show");
+                $(childs).toggle();
                 $(image).removeClass("image-plus").addClass("image-minus");
             }
             else {
@@ -92,7 +100,7 @@
             }
         }
         else {
-            $(childs).removeClass("childs-container-show").addClass("childs-container-hide");
+            $(childs).toggle();
             $(image).removeClass("image-minus").addClass("image-plus");
         }
     },
@@ -107,7 +115,7 @@
         
         if ($(e.target).hasClass("image-plus") === true) {
             if ($(parrentNode).hasClass("container-loaded") === true) {
-                $(childs).removeClass("childs-container-hide").addClass("childs-container-show");
+                $(childs).toggle();
                 $(image).removeClass("image-plus").addClass("image-minus");
             }
             else {
@@ -137,7 +145,7 @@
             }
         }
         else {
-            $(childs).removeClass("childs-container-show").addClass("childs-container-hide");
+            $(childs).toggle();
             $(image).removeClass("image-minus").addClass("image-plus");
         }
     }

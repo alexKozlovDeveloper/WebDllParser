@@ -97,15 +97,6 @@ textarea {
 
 }
 
-.childs-container-hide {
-    visibility: hidden;
-    height: 0px;
-}
-
-.childs-container-show {
-    visibility: visible;
-}
-
 .input-container {
     height: 50px;
     background-color: gold;
