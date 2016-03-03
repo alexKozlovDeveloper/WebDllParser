@@ -15,14 +15,6 @@ namespace DllParser.Core
         public List<TypeModel> Types { get; private set; }
         public Dictionary<string, List<TypeModel>> Namespaces { get; private set; }
 
-        public List<string> NamespaceNames 
-        { 
-            get 
-            {
-                return Namespaces.Select(a => a.Key).ToList();
-            } 
-        }
-
         public LibraryParser(string filePath)
         {
             _filePath = filePath;

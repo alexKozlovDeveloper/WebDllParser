@@ -8,42 +8,25 @@
     },
     rebindShowEvents: function (item) {
         var me = this;
-
-        $('.image-container.type').unbind();
-        $('.image-container.type').click(me.showTypeFunc);
-        $('.image-container.namespace').unbind();
-        $('.image-container.namespace').click(me.showTypesFromNamespaceFunc);
+        $('.image-container.Class').unbind();
+        $('.image-container.Class').click(me.showTypeFunc);
+        $('.image-container.Namespace').unbind();
+        $('.image-container.Namespace').click(me.showTypesFromNamespaceFunc);
     },
-    getTypeInfoHtml: function (item, imageClass) {
+    getTypeInfoHtml: function (item) {
         var res = "<div class='member-container'>";
         if (item.IsHasChild === true) {
-            res += "<div class='image-plus image-container'></div>";
+            res += "<div class='image-plus image-container " + item.Type + "'></div>";
         }
-        res += "<div class='image-" + imageClass + " image-container'></div><div class='name-container'>" + item.Name + "</div><div class='name-container'>: " + item.TypeName + "</div>";
-        res += "<div class='name-container'>" + item.ParametrsInfo + "</div>";
+        res += "<div class='image-" + item.Type + " image-container'></div><div class='name-container'>" + item.Description + "</div>";
         res += "</div>";
         return res;
     },
-    getTypeHtml: function (item) {
-        var res = "<div class='member-container'>";
-        res += "<div class='image-plus image-container type'></div>";
-        res += "<div class='image-class image-container'></div><div class='name-container'>" + item + "</div>";
-        res += "</div>";
-        return res;
-    },
-    getNamespaceHtml: function (item, imageClass) {
-        var res = "<div class='member-container'>";
-        res += "<div class='image-plus image-container namespace'></div>";
-        res += "<div class='image-namespace image-container'></div><div class='name-container'>" + item + "</div>";
-        res += "</div>";
-        return res;
-    },
-    getTypesInfoHtml: function (arr, imageClass) {
+    getTypesInfoHtml: function (arr) {
         var me = this;
-
         var res = "";
         arr.forEach(function (item) {
-            res += me.getTypeInfoHtml(item, imageClass);
+            res += me.getTypeInfoHtml(item);
         });
         return res;
     },
@@ -70,11 +53,10 @@
                     success: function (result) {
                         var str = "<div class='childs-container'>";
 
-                        str += dllLoader.getTypesInfoHtml(result.Constructors, "constructors");
-                        str += dllLoader.getTypesInfoHtml(result.Events, "events");
-                        str += dllLoader.getTypesInfoHtml(result.Fields, "fields");
-                        str += dllLoader.getTypesInfoHtml(result.Methods, "methods");
-                        str += dllLoader.getTypesInfoHtml(result.Properties, "properties");
+                        str += dllLoader.getTypesInfoHtml(result.Events);
+                        str += dllLoader.getTypesInfoHtml(result.Fields);
+                        str += dllLoader.getTypesInfoHtml(result.Methods);
+                        str += dllLoader.getTypesInfoHtml(result.Properties);
 
                         str += "</div><div class='image-plus'></div>";
 
@@ -117,9 +99,11 @@
                     contentType: false,
                     processData: false,
                     success: function (result) {
+                        debugger;
+
                         var str = "<div class='childs-container'>";
                         result.forEach(function (item) {
-                            str += dllLoader.getTypeHtml(item);
+                            str += dllLoader.getTypeInfoHtml(item);
                         });
                         str += "</div>";
 
@@ -159,7 +143,7 @@ $('#uploadFile').on('change', function (e) {
             success: function (result) {
                 $("div.result").empty();
                 for (var i = 0; i < result.length; i++) {
-                    var item = dllLoader.getNamespaceHtml(result[i]);
+                    var item = dllLoader.getTypeInfoHtml(result[i]);
                     $(".result").append(item);
                 }
                 dllLoader.rebindShowEvents();

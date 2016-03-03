@@ -40,7 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\ModelType.cs" />
     <Compile Include="LibraryParser.cs" />
+    <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\ClassModel.cs" />
+    <Compile Include="Models\EventModel.cs" />
+    <Compile Include="Models\FieldModel.cs" />
+    <Compile Include="Models\MethodModel.cs" />
+    <Compile Include="Models\NamespaceModel.cs" />
+    <Compile Include="Models\PropertyModel.cs" />
     <Compile Include="Models\TypeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestEntityes\ClassA.cs" />

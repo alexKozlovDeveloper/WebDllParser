@@ -111,15 +111,15 @@ textarea {
 .result {
 }
 
-.image-constructors {
+.image-Constructor {
     background-image: url(/Content/images/method_img.png);   
 }
 
-.image-events {
+.image-Event {
     background-image: url(/Content/images/event_img.png);   
 }
 
-.image-fields {
+.image-Field {
     background-image: url(/Content/images/field_img.png);   
 }
 
@@ -127,7 +127,7 @@ textarea {
     background-image: url(/Content/images/method_img.png);   
 }
 
-.image-methods {
+.image-Method {
     background-image: url(/Content/images/method_img.png);   
 }
 
@@ -135,15 +135,15 @@ textarea {
     background-image: url(/Content/images/method_img.png);   
 }
 
-.image-properties {
+.image-Property {
     background-image: url(/Content/images/property_img.png);   
 }
 
-.image-class {
+.image-Class {
     background-image: url(/Content/images/class_img.png);   
 }
 
-.image-namespace {
+.image-Namespace {
     background-image: url(/Content/images/namespace_img.png);   
 }
 

@@ -41,7 +41,7 @@ namespace DllParser.Controllers
 
                         Session[Keys.AssemblyParser] = libraryParser;
 
-                        return Json(libraryParser.NamespaceNames);
+                        return Json(libraryParser.Namespaces.Select(a => new NamespaceModel(a.Key)));
                     }
                 }
             }
@@ -87,7 +87,7 @@ namespace DllParser.Controllers
             
             try
             {
-                return Json(libraryParser.Namespaces[namespaceName].Select(a => a.Name).ToList());
+                return Json(libraryParser.Namespaces[namespaceName].Select(a => new ClassModel(a.Name)).ToList());
             }
             catch (Exception ex)
             {
