@@ -6,15 +6,17 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DllParser.Core.Models
+namespace DllParser.Core.Entities
 {
-    public class PropertyModel : BaseModel
+    public class PropertyEntity : BaseEntity
     {
+        private string _type;
+
         public override string Description
         {
             get
             {
-                return string.Format("{0}", Name);
+                return string.Format("{0} : {1}", Name, _type);
             }
         }
 
@@ -26,10 +28,11 @@ namespace DllParser.Core.Models
             }
         }
 
-        public PropertyModel(PropertyInfo type)
+        public PropertyEntity(PropertyInfo type)
             : base(ModelType.Property)
         {
             Name = type.Name;
+            _type = type.PropertyType.Name;
         }
     }
 }

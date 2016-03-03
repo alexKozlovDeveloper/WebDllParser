@@ -6,15 +6,17 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DllParser.Core.Models
+namespace DllParser.Core.Entities
 {
-    public class ClassModel : BaseModel
+    public class EventEntity : BaseEntity
     {
+        private string _eventHandlerType;
+
         public override string Description
         {
             get
             {
-                return string.Format("{0}", Name);
+                return string.Format("{0} : {1}", Name, _eventHandlerType);
             }
         }
 
@@ -22,14 +24,15 @@ namespace DllParser.Core.Models
         {
             get
             {
-                return true;
+                return false;
             }
         }
 
-        public ClassModel(string name)
-            : base(ModelType.Class)
+        public EventEntity(EventInfo type)
+            : base(ModelType.Event)
         {
-            Name = name;
+            Name = type.Name;
+            _eventHandlerType = type.EventHandlerType.Name;
         }
     }
 }

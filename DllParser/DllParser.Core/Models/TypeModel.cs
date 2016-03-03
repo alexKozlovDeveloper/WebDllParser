@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DllParser.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -12,21 +13,21 @@ namespace DllParser.Core.Models
         public string Name { get; set; }
         public string Namespace { get; set; }
 
-        public List<EventModel> Events { get; set; }
-        public List<FieldModel> Fields { get; set; }
-        public List<MethodModel> Methods { get; set; }
-        public List<PropertyModel> Properties { get; set; }
+        public List<EventEntity> Events { get; set; }
+        public List<FieldEntity> Fields { get; set; }
+        public List<MethodEntity> Methods { get; set; }
+        public List<PropertyEntity> Properties { get; set; }
 
         public TypeModel(TypeInfo type)
         {
             Name = type.Name;
             Namespace = type.Namespace;
 
-            Events = type.DeclaredEvents.Select(a => new EventModel(a)).ToList();
-            Fields = type.DeclaredFields.Select(a => new FieldModel(a)).ToList();
-            Properties = type.DeclaredProperties.Select(a => new PropertyModel(a)).ToList();
-            Methods = type.DeclaredMethods.Select(a => new MethodModel(a)).ToList();            
-            Methods.AddRange(type.DeclaredConstructors.Select(a => new MethodModel(a)).ToList());
+            Events = type.DeclaredEvents.Select(a => new EventEntity(a)).ToList();
+            Fields = type.DeclaredFields.Select(a => new FieldEntity(a)).ToList();
+            Properties = type.DeclaredProperties.Select(a => new PropertyEntity(a)).ToList();
+            Methods = type.DeclaredMethods.Select(a => new MethodEntity(a)).ToList();            
+            Methods.AddRange(type.DeclaredConstructors.Select(a => new MethodEntity(a)).ToList());
         }
     }
 }

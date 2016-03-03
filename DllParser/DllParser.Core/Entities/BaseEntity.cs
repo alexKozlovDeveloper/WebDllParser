@@ -5,25 +5,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DllParser.Core.Models
+namespace DllParser.Core.Entities
 {
-    public class BaseModel
+    public class BaseEntity
     {
-        protected ModelType _type;        
+        protected ModelType _type;
         public string Name { get; set; }
 
-        public string Type 
-        { 
+        public string Type
+        {
             get
-            { 
-                return _type.ToString(); 
-            } 
+            {
+                return _type.ToString();
+            }
         }
 
         public virtual string Description { get; set; }
         public virtual bool IsHasChild { get; set; }
 
-        public BaseModel(ModelType type)
+        public BaseEntity(ModelType type)
         {
             _type = type;
         }

@@ -6,15 +6,17 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DllParser.Core.Models
+namespace DllParser.Core.Entities
 {
-    public class FieldModel : BaseModel
+    public class FieldEntity : BaseEntity
     {
+        private string _type;
+
         public override string Description
         {
             get
             {
-                return string.Format("{0}", Name);
+                return string.Format("{0} : {1}", Name, _type);
             }
         }
 
@@ -26,10 +28,11 @@ namespace DllParser.Core.Models
             }
         }
 
-        public FieldModel(FieldInfo type)
+        public FieldEntity(FieldInfo type)
             : base(ModelType.Field)
         {
             Name = type.Name;
+            _type = type.FieldType.Name;
         }
     }
 }

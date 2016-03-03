@@ -14,5 +14,10 @@ namespace DllParser.Core.TestEntityes
         {
         
         }
+
+        public int someSum(int a, int b)
+        {
+            return a + b;
+        }
     }
 }

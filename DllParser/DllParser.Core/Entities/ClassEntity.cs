@@ -2,13 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DllParser.Core.Models
+namespace DllParser.Core.Entities
 {
-    public class EventModel : BaseModel
+    public class ClassEntity : BaseEntity
     {
         public override string Description
         {
@@ -22,14 +21,14 @@ namespace DllParser.Core.Models
         {
             get
             {
-                return false;
+                return true;
             }
         }
 
-        public EventModel(EventInfo type)
-            : base(ModelType.Event)
+        public ClassEntity(string name)
+            : base(ModelType.Class)
         {
-            Name = type.Name;
+            Name = name;
         }
     }
 }
