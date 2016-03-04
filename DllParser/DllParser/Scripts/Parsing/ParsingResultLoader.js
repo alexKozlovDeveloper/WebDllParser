@@ -29,8 +29,6 @@
         return res;
     },
     GetShowTypeUrl: function (e, name) {
-        debugger;
-
         if ($(e).hasClass("Namespace") === true) {
             return dllLoader.showTypesFromNamespaceUrl + name;
         }
@@ -79,8 +77,6 @@
                     contentType: false,
                     processData: false,
                     success: function (result) {
-                        debugger;
-
                         var str = "";
 
                         if ($(e.target).hasClass("Namespace") === true) {
