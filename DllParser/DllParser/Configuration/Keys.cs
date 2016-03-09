@@ -10,5 +10,7 @@ namespace DllParser.Configuration
         public const string AppDataPath = "~/App_Data/DllFiles";
         public const string AssemblyItems = "AssemblyItems";
         public const string AssemblyParser = "AssemblyParser";
+
+        public const string DllFileExtension = ".dll";
     }
 }

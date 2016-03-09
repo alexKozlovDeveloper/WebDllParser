@@ -31,7 +31,7 @@ namespace DllParser.Controllers
                     if (fileContent != null && fileContent.ContentLength > 0)
                     {
                         Stream stream = fileContent.InputStream;
-                        string fileName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".dll";
+                        string fileName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + Keys.DllFileExtension;
                         string path = Path.Combine(Server.MapPath(Keys.AppDataPath), fileName);
                         using (var fileStream = System.IO.File.Create(path))
                         {
