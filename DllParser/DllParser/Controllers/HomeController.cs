@@ -49,7 +49,7 @@ namespace DllParser.Controllers
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json("Upload failed");
+                return Json("Upload failed.");
             }
 
             return Json(new List<string>());
@@ -72,7 +72,7 @@ namespace DllParser.Controllers
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json("Failed: " + ex.Message);
+                return Json("Failed.");
             }
         }
 
@@ -93,7 +93,7 @@ namespace DllParser.Controllers
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json("Failed: " + ex.Message);
+                return Json("Failed.");
             }
         }
     }

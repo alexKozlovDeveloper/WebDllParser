@@ -1,24 +1,43 @@
-﻿var dllLoader = {
+﻿window.dllLoader = {
     showTypesFromNamespaceUrl: "Home/GetTypeFromNamespace?namespaceName=",
     showTypeInfoUrl: "Home/GetTypeInfo?name=",
+    errorContainerTemplate: "<div class='error-container'>{0}</div>",
+    imageContainerSelector: ".image-container",
+    resultSelector: ".result",
+    typeInfoTemplate: "<div class='member-container'>{0}<div class='image-{1} image-container'></div><div class='name-container'>{2}</div></div>",
+    imagePlusTemplate: "<div class='image-plus image-container {0}'></div>",
+    nameSpaceCLassName: "Namespace",
+    childsContainerTemplate: "<div class='childs-container'>{0}</div>",
+    childsContainerTemplateWithPlus: "<div class='childs-container'>{0}</div><div class='image-plus'></div>",
+    childsContainerSelector: ".childs-container",
+    nameContainerSelector: ".name-container",
+    imagePlusClassName: "image-plus",
+    containerLoadedClassName: "container-loaded",
+    imageMinusClassName: "image-minus",
+    wrongMesage: "Something is wrong. {0}",
     writeErrorMessage: function (message) {
-        $("div.result").empty();
-        var message = "<div class='error-container'>" + message + "</div>";
-        $(".result").append(message);
+        var me = this;
+
+        $(me.resultSelector).empty();
+        var message = me.errorContainerTemplate.format([message]);
+        $(me.resultSelector).append(message);
     },
     rebindShowEvents: function (item) {
         var me = this;
-        $('.image-container').unbind();
-        $('.image-container').click(me.showItemFunc);
+
+        $(me.imageContainerSelector).unbind();
+        $(me.imageContainerSelector).click(me.showItemFunc);
     },
     getTypeInfoHtml: function (item) {
-        var res = "<div class='member-container'>";
+        var me = this;
+
+        var imagePlus = "";
+
         if (item.IsHasChild === true) {
-            res += "<div class='image-plus image-container " + item.Type + "'></div>";
+            imagePlus = me.imagePlusTemplate.format([item.Type]);
         }
-        res += "<div class='image-" + item.Type + " image-container'></div><div class='name-container'>" + item.Description + "</div>";
-        res += "</div>";
-        return res;
+
+        return me.typeInfoTemplate.format([imagePlus, item.Type, item.Description]);
     },
     getTypesInfoHtml: function (arr) {
         var me = this;
@@ -29,108 +48,85 @@
         return res;
     },
     GetShowTypeUrl: function (e, name) {
-        if ($(e).hasClass("Namespace") === true) {
-            return dllLoader.showTypesFromNamespaceUrl + name;
+        var me = this;
+
+        if ($(e).hasClass(me.nameSpaceCLassName) === true) {
+            return window.dllLoader.showTypesFromNamespaceUrl + name;
         }
         else {
-            return dllLoader.showTypeInfoUrl + name;
+            return window.dllLoader.showTypeInfoUrl + name;
         }
     },
     showTypesFromNamespaceSuccessFunc: function (result) {
-        var str = "<div class='childs-container'>";
+        var me = this;
+
+        var str = "";
         result.forEach(function (item) {
-            str += dllLoader.getTypeInfoHtml(item);
+            str += window.dllLoader.getTypeInfoHtml(item);
         });
-        str += "</div>";
-        return str;
+
+        return me.childsContainerTemplate.format([str]);
     },
     showTypeSuccessFunc: function (result) {
+        var me = this;
 
-        var str = "<div class='childs-container'>";
+        var str = "";
 
-        str += dllLoader.getTypesInfoHtml(result.Events);
-        str += dllLoader.getTypesInfoHtml(result.Fields);
-        str += dllLoader.getTypesInfoHtml(result.Methods);
-        str += dllLoader.getTypesInfoHtml(result.Properties);
+        str += window.dllLoader.getTypesInfoHtml(result.Events);
+        str += window.dllLoader.getTypesInfoHtml(result.Fields);
+        str += window.dllLoader.getTypesInfoHtml(result.Methods);
+        str += window.dllLoader.getTypesInfoHtml(result.Properties);
 
-        str += "</div><div class='image-plus'></div>";
-        return str;
+        return me.childsContainerTemplateWithPlus.format([str]);
     },
     showItemFunc: function (e) {
-        var me = this;
+        var me = window.dllLoader;
 
         var parrentNode = e.target.parentNode;
 
-        var image = $(parrentNode).children(".image-container").get(0);
-        var childs = $(parrentNode).children(".childs-container").get(0);
-        var name = $(parrentNode).children(".name-container").get(0);
-
-        if ($(e.target).hasClass("image-plus") === true) {
-            if ($(parrentNode).hasClass("container-loaded") === true) {
+        var image = $(parrentNode).children(me.imageContainerSelector).get(0);
+        var childs = $(parrentNode).children(me.childsContainerSelector).get(0);
+        var name = $(parrentNode).children(me.nameContainerSelector).get(0);
+        debugger;
+        if ($(e.target).hasClass(me.imagePlusClassName) === true) {
+            if ($(parrentNode).hasClass(me.containerLoadedClassName) === true) {
                 $(childs).toggle();
-                $(image).removeClass("image-plus").addClass("image-minus");
+                $(image).removeClass(me.imagePlusClassName).addClass(me.imageMinusClassName);
             }
             else {
                 $.ajax({
                     type: "POST",
-                    url: dllLoader.GetShowTypeUrl(e.target, name.innerText),
+                    url: window.dllLoader.GetShowTypeUrl(e.target, name.innerText),
                     contentType: false,
                     processData: false,
                     success: function (result) {
                         var str = "";
 
-                        if ($(e.target).hasClass("Namespace") === true) {
-                            str = dllLoader.showTypesFromNamespaceSuccessFunc(result, parrentNode);
+                        if ($(e.target).hasClass(me.nameSpaceCLassName) === true) {
+                            str = window.dllLoader.showTypesFromNamespaceSuccessFunc(result, parrentNode);
                         }
                         else {
-                            str = dllLoader.showTypeSuccessFunc(result, parrentNode);
+                            str = window.dllLoader.showTypeSuccessFunc(result, parrentNode);
                         }
 
                         $(parrentNode).append(str);
-                        $(image).removeClass("image-plus").addClass("image-minus");
+                        $(image).removeClass(me.imagePlusClassName).addClass(me.imageMinusClassName);
 
-                        $(parrentNode).addClass("container-loaded");
+                        $(parrentNode).addClass(me.containerLoadedClassName);
 
-                        dllLoader.rebindShowEvents();
+                        window.dllLoader.rebindShowEvents();
 
                     },
                     error: function (ex) {
-                        dllLoader.writeErrorMessage("Something is wrong. " + ex.responseText);
+                        window.dllLoader.writeErrorMessage(me.wrongMesage.format([ex.responseText]));
                     }
                 });
             }
         }
         else {
             $(childs).toggle();
-            $(image).removeClass("image-minus").addClass("image-plus");
+            $(image).removeClass(me.imageMinusClassName).addClass(me.imagePlusClassName);
         }
     }
 }
 
-$('#uploadFile').on('change', function (e) {
-    var files = e.target.files;
-    if (files.length > 0) {
-        var data = new FormData();
-        for (var x = 0; x < files.length; x++) {
-            data.append("file" + x, files[x]);
-        }
-        $.ajax({
-            type: "POST",
-            url: 'Home/UploadFile',
-            contentType: false,
-            processData: false,
-            data: data,
-            success: function (result) {
-                $("div.result").empty();
-                for (var i = 0; i < result.length; i++) {
-                    var item = dllLoader.getTypeInfoHtml(result[i]);
-                    $(".result").append(item);
-                }
-                dllLoader.rebindShowEvents();
-            },
-            error: function (ex) {
-                writeErrorMessage("Something is wrong. " + ex.responseText);
-            }
-        });
-    }
-});
