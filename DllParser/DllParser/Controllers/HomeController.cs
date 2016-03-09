@@ -31,7 +31,7 @@ namespace DllParser.Controllers
                     if (fileContent != null && fileContent.ContentLength > 0)
                     {
                         Stream stream = fileContent.InputStream;
-                        string fileName = Path.GetRandomFileName();
+                        string fileName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".dll";
                         string path = Path.Combine(Server.MapPath(Keys.AppDataPath), fileName);
                         using (var fileStream = System.IO.File.Create(path))
                         {
@@ -49,7 +49,7 @@ namespace DllParser.Controllers
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json("Upload failed.");
+                return Json("Upload or parse failed.");
             }
 
             return Json(new List<string>());
