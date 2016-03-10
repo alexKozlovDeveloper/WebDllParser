@@ -102,6 +102,12 @@ textarea {
     background-color: gold;
 }
 
+.version-container {
+    float: right;
+    margin-top: 15px;
+    margin-right: 30px;
+}
+
 .inputfile {
     margin-top: 15px;
     margin-left: 30px;

@@ -87,7 +87,7 @@
         var image = $(parrentNode).children(me.imageContainerSelector).get(0);
         var childs = $(parrentNode).children(me.childsContainerSelector).get(0);
         var name = $(parrentNode).children(me.nameContainerSelector).get(0);
-        debugger;
+
         if ($(e.target).hasClass(me.imagePlusClassName) === true) {
             if ($(parrentNode).hasClass(me.containerLoadedClassName) === true) {
                 $(childs).toggle();
